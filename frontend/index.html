@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NovaTech AI Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-cream: #F2EDE4;
+            --primary-dark: #1A1A1A;
+            --accent-red: #B34632;
+            --input-bg: #EBE4D8;
+            --text-body: #6B665E;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; border-radius: 0 !important; }
+
+        body {
+            background-color: var(--bg-cream);
+            color: var(--text-body);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .container {
+            display: flex;
+            width: 100%;
+            max-width: 1200px;
+            height: 85vh;
+            background: var(--bg-cream);
+            border: 1px solid var(--primary-dark);
+            box-shadow: 8px 8px 0px var(--primary-dark);
+        }
+
+        /* Sidebar Settings */
+        .sidebar {
+            width: 320px;
+            border-right: 1px solid var(--primary-dark);
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            background: var(--bg-cream);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--primary-dark);
+        }
+
+        .brand-logo {
+            width: 48px;
+            height: 48px;
+            background: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--bg-cream);
+        }
+
+        .brand-text h1 { font-size: 1.5rem; font-weight: 700; color: var(--primary-dark); letter-spacing: -0.5px; text-transform: uppercase;}
+        .brand-text p { font-size: 0.85rem; color: var(--accent-red); font-weight: 600; text-transform: uppercase; letter-spacing: 1px;}
+
+        .settings-group {
+            margin-bottom: 2rem;
+        }
+
+        .settings-group label {
+            display: block;
+            font-size: 0.75rem;
+            color: var(--primary-dark);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        .input-field {
+            width: 100%;
+            background: var(--input-bg);
+            border: 1px solid var(--primary-dark);
+            padding: 0.875rem 1rem;
+            color: var(--primary-dark);
+            font-size: 0.95rem;
+            outline: none;
+            font-weight: 500;
+        }
+
+        .input-field:focus {
+            background: var(--bg-cream);
+            border-width: 2px;
+            padding: calc(0.875rem - 1px) calc(1rem - 1px);
+        }
+
+        /* Toggle Buttons Group */
+        .toggle-group {
+            display: flex;
+            width: 100%;
+        }
+
+        .toggle-btn {
+            flex: 1;
+            padding: 0.75rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            border: 1px solid var(--primary-dark);
+            background: transparent;
+            color: var(--primary-dark);
+            outline: none;
+            margin-right: -1px; /* Flush layout */
+        }
+        
+        .toggle-btn:last-child {
+            margin-right: 0;
+        }
+
+        .toggle-btn.active {
+            background: var(--primary-dark);
+            color: var(--bg-cream);
+            border-color: var(--primary-dark);
+            z-index: 1;
+        }
+
+        .company-info {
+            margin-top: auto;
+            background: var(--bg-cream);
+            border: 1px solid var(--primary-dark);
+            padding: 1.25rem;
+            border-left: 4px solid var(--accent-red) !important;
+        }
+
+        .company-info h3 { font-size: 0.85rem; margin-bottom: 0.5rem; color: var(--primary-dark); text-transform: uppercase; letter-spacing: 1px;}
+        .company-info p { font-size: 0.85rem; color: var(--text-body); line-height: 1.5; }
+
+        /* Main Chat Area */
+        .chat-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            background: var(--bg-cream);
+        }
+
+        .chat-header {
+            padding: 1.25rem 2rem;
+            border-bottom: 1px solid var(--primary-dark);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--input-bg);
+        }
+
+        .chat-title { font-size: 1.1rem; font-weight: 700; color: var(--primary-dark); text-transform: uppercase; letter-spacing: 1px;}
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary-dark);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 1px solid var(--primary-dark);
+            padding: 0.25rem 0.5rem;
+        }
+        .status-dot { width: 8px; height: 8px; background: var(--primary-dark); }
+
+        .chat-messages {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .chat-messages::-webkit-scrollbar { width: 8px; }
+        .chat-messages::-webkit-scrollbar-track { background: var(--input-bg); border-left: 1px solid var(--primary-dark); }
+        .chat-messages::-webkit-scrollbar-thumb { background: var(--primary-dark); }
+
+        .message {
+            max-width: 85%;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .message-user { align-self: flex-end; flex-direction: row-reverse; }
+
+        .message-avatar {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 1rem;
+            border: 1px solid var(--primary-dark);
+        }
+
+        .user-avatar { background: var(--input-bg); color: var(--primary-dark); }
+        .nova-avatar { background: var(--primary-dark); color: var(--bg-cream); }
+
+        .message-content {
+            padding: 1rem 1.25rem;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--primary-dark);
+            border: 1px solid var(--primary-dark);
+        }
+
+        .message-user .message-content {
+            background: var(--input-bg);
+        }
+
+        .message-nova .message-content {
+            background: var(--bg-cream);
+            box-shadow: 2px 2px 0px var(--primary-dark);
+        }
+        
+        .message-nova .message-content p { margin-bottom: 0.5rem; }
+
+        .chat-input-container {
+            padding: 1.5rem 2rem;
+            border-top: 1px solid var(--primary-dark);
+            background: var(--input-bg);
+        }
+
+        .chat-form {
+            display: flex;
+            background: var(--bg-cream);
+            border: 2px solid var(--primary-dark);
+        }
+
+        .chat-form:focus-within {
+            box-shadow: 4px 4px 0px var(--primary-dark);
+            transform: translate(-2px, -2px);
+            transition: all 0.1s ease;
+        }
+
+        .chat-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 1rem 1.25rem;
+            color: var(--primary-dark);
+            font-size: 1rem;
+            font-weight: 500;
+            outline: none;
+        }
+
+        .chat-input::placeholder {
+            color: var(--text-body);
+        }
+
+        .chat-submit {
+            background: var(--primary-dark);
+            color: var(--bg-cream);
+            border: none;
+            border-left: 2px solid var(--primary-dark);
+            width: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        .chat-submit:hover {
+            background: var(--accent-red);
+            color: white;
+        }
+
+        /* Typing & Misc styling */
+        .typing { display: none; }
+        .typing.active { display: flex; }
+        .dot { width: 6px; height: 6px; background: var(--primary-dark); animation: blink 1.4s infinite both; }
+        .typing-indicator { display: flex; gap: 4px; padding: 0.2rem 0; align-items: center; height: 100%;}
+        .dot:nth-child(2) { animation-delay: 0.2s; }
+        .dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes blink {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 1; }
+        }
+
+        .nova-bold { color: var(--primary-dark); font-weight: 800; }
+        .error-message { border-color: var(--accent-red) !important; color: var(--accent-red) !important; font-weight: 600; border-left: 4px solid var(--accent-red) !important;}
+
+        /* Responsive Mobile Layout */
+        @media (max-width: 850px) {
+            body {
+                padding: 0;
+            }
+            .container {
+                flex-direction: column;
+                height: 100vh;
+                height: 100dvh;
+                border: none;
+                box-shadow: none;
+            }
+            .sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid var(--primary-dark);
+                padding: 1rem;
+                flex-direction: row;
+                flex-wrap: wrap;
+                align-items: center;
+                justify-content: space-between;
+                gap: 1rem;
+            }
+            .brand {
+                margin-bottom: 0;
+                padding-bottom: 0;
+                border-bottom: none;
+            }
+            .brand-logo {
+                width: 36px;
+                height: 36px;
+                font-size: 1.2rem;
+            }
+            .brand-text h1 {
+                font-size: 1.2rem;
+            }
+            .settings-group {
+                margin-bottom: 0;
+                min-width: 150px;
+                flex: 1;
+            }
+            .company-info {
+                display: none;
+            }
+            .chat-header {
+                padding: 1rem;
+            }
+            .chat-messages {
+                padding: 1rem;
+                gap: 1rem;
+            }
+            .message {
+                max-width: 95%;
+            }
+            .message-avatar {
+                width: 32px;
+                height: 32px;
+                font-size: 0.85rem;
+            }
+            .message-content {
+                padding: 0.85rem 1rem;
+                font-size: 0.9rem;
+            }
+            .chat-input-container {
+                padding: 1rem;
+            }
+            .chat-input {
+                padding: 0.85rem 1rem;
+                font-size: 0.95rem;
+            }
+            .chat-submit {
+                width: 50px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .sidebar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .brand {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="brand">
+                <div class="brand-logo"><i class="fa-solid fa-shapes"></i></div>
+                <div class="brand-text">
+                    <h1>NovaTech</h1>
+                    <p>Terminal // 01</p>
+                </div>
+            </div>
+
+            <div class="settings-group">
+                <label>Customer ID</label>
+                <input type="text" id="customer-name" class="input-field" value="Guest" placeholder="Enter identification...">
+            </div>
+
+            <div class="settings-group">
+                <label>Action Mode</label>
+                <div class="toggle-group">
+                    <button class="toggle-btn active" type="button">Support</button>
+                    <button class="toggle-btn" type="button" onclick="alert('Module locked')">Billing</button>
+                    <button class="toggle-btn" type="button" onclick="alert('Module locked')">Tech</button>
+                </div>
+            </div>
+
+            <div class="company-info">
+                <h3>System Status</h3>
+                <p>Knowledge Base active. All responses adhere to strict internal protocols and guardrails.</p>
+            </div>
+        </div>
+
+        <!-- Main Chat -->
+        <div class="chat-area">
+            <div class="chat-header">
+                <div class="chat-title">Query Interface</div>
+                <div class="status-badge" title="API Status">
+                    <div class="status-dot"></div> RAG ON
+                </div>
+            </div>
+
+            <div class="chat-messages" id="chat-messages">
+                <div class="message message-nova">
+                    <div class="message-avatar nova-avatar"><i class="fa-solid fa-terminal"></i></div>
+                    <div class="message-content">System initialized. I am Nova, your support agent. Please enter your query.</div>
+                </div>
+                
+                <div class="message message-nova typing" id="typing-indicator">
+                    <div class="message-avatar nova-avatar"><i class="fa-solid fa-terminal"></i></div>
+                    <div class="message-content">
+                        <div class="typing-indicator">
+                            <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chat-input-container">
+                <form class="chat-form" id="chat-form">
+                    <input type="text" class="chat-input" id="message-input" placeholder="Execute command..." autocomplete="off">
+                    <button type="submit" class="chat-submit"><i class="fa-solid fa-arrow-right"></i></button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const chatForm = document.getElementById('chat-form');
+        const messageInput = document.getElementById('message-input');
+        const chatMessages = document.getElementById('chat-messages');
+        const customerName = document.getElementById('customer-name');
+        const typingIndicator = document.getElementById('typing-indicator');
+        
+        // Handle Toggles
+        document.querySelectorAll('.toggle-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                if(!this.classList.contains('active') && this.innerText === 'Support') {
+                    document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                }
+            });
+        });
+
+        let chatHistory = [];
+
+        function formatMarkdown(text) {
+            return text
+                .replace(/\n/g, '<br>')
+                .replace(/\*\*(.*?)\*\*/g, '<span class="nova-bold">$1</span>')
+                .replace(/\*(.*?)\*/g, '<em>$1</em>');
+        }
+
+        function addMessage(text, isUser = false, isError = false) {
+            const wrapper = document.createElement('div');
+            wrapper.className = `message ${isUser ? 'message-user' : 'message-nova'}`;
+            
+            const icon = isUser ? '<i class="fa-solid fa-user"></i>' : '<i class="fa-solid fa-terminal"></i>';
+            const avatarClass = isUser ? 'user-avatar' : 'nova-avatar';
+            const contentClass = isError ? 'error-message' : '';
+
+            wrapper.innerHTML = `
+                <div class="message-avatar ${avatarClass}">${icon}</div>
+                <div class="message-content ${contentClass}">${isUser ? text : formatMarkdown(text)}</div>
+            `;
+            
+            chatMessages.insertBefore(wrapper, typingIndicator);
+            scrollToBottom();
+        }
+
+        function scrollToBottom() {
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        chatForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const msg = messageInput.value.trim();
+            if (!msg) return;
+
+            addMessage(msg, true);
+            messageInput.value = '';
+            
+            typingIndicator.classList.add('active');
+            scrollToBottom();
+
+            const cName = customerName.value.trim() || 'Guest';
+
+            try {
+                const response = await fetch('http://127.0.0.1:8000/ask', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        message: msg,
+                        customer_name: cName,
+                        history: chatHistory
+                    })
+                });
+
+                let data;
+                try { data = await response.json(); } catch(e){}
+                
+                typingIndicator.classList.remove('active');
+
+                if (response.ok && data) {
+                    addMessage(data.response, false);
+                    chatHistory.push({ role: 'user', content: msg });
+                    chatHistory.push({ role: 'model', content: data.response });
+                } else {
+                    addMessage(`SYSTEM ERROR: ${data ? data.detail : response.statusText }`, false, true);
+                }
+
+            } catch (err) {
+                typingIndicator.classList.remove('active');
+                addMessage('CONNECTION FAILURE. Backend server not responding.', false, true);
+                console.error(err);
+            }
+        });
+    </script>
+</body>
+</html>

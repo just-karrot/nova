@@ -1,0 +1,13 @@
+{
+  "company": "NovaTech SaaS is a premier platform dedicated to providing cloud-based business solutions.",
+  "plans": "Free, Starter £8/mo, Business £25/mo, Enterprise.",
+  "billing_policies": "All paid subscriptions are subject to a standard 14-day refund policy.",
+  "account_and_login": "For password reset steps: Visit the login page, click 'Forgot Password', and follow the instructions sent to your registered email.",
+  "product_features": "Our core features include real-time collaboration, comprehensive reporting tools, and seamless CRM integrations.",
+  "supported_platforms": "Our service is available via web browsers (Chrome, Firefox, Safari, Edge) and as native applications for iOS and Android.",
+  "common_issues": "Users occasionally experience brief delays with third-party integrations or need assistance resolving API rate limit errors.",
+  "escalation_rules": "Escalate any legal inquiries immediately. For billing, trigger an escalation for any disputes or refund amounts over £500.",
+  "internal_contacts": "Tier 1 Support: tier1@novatech.com, Tier 2 Support: tier2@novatech.com, Legal: legal@novatech.com",
+  "data_and_privacy": "We adhere to strict data security protocols, ensuring all user data is fully encrypted and GDPR compliant.",
+  "tone_guidelines": "Always communicate with the customer using a professional, empathetic, and solution-driven tone."
+}
