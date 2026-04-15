@@ -11,18 +11,15 @@ A customer support agent application utilizing a Python FastAPI backend and a st
 
 1.  **Clone the repository:**
     ```bash
-    git clone <repository_url>
-    cd <repository_directory>
+    git clone https://github.com/just-karrot/nova.git
+    cd nova
     ```
 
-2.  **Environment Configuration:**
-    Create a `.env` file in the `backend/` directory containing your Groq API key:
-    ```
-    GROQ_API_KEY="your_api_key_here"
-    ```
+2.  **API Configuration:**
     You can obtain a Groq API key from https://console.groq.com.
+    The API will be used directly in the form, so no need to store it in ``` .env ```
 
-3.  **Install Dependencies:**
+4.  **Install Dependencies:**
     Navigate to the backend directory and install the required Python packages:
     ```bash
     cd backend
